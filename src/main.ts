@@ -6,6 +6,10 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/styles/scss/main.scss";
 
+// import VueTyperPlugin from "vue-typer";
+
+// Vue.use(VueTyperPlugin);
+
 Vue.config.productionTip = false;
 
 new Vue({

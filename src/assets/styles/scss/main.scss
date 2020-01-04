@@ -1,3 +1,31 @@
+.vue-typer .custom.char.typed {
+	color: white;
+}
 h1 {
 	color: #e24444;
+	font-family: "Fira Code", monospace;
+	font-weight: bold;
+
+	@extend .fs-1;
+}
+
+.body-font {
+	font-family: Raleway, sans-serif;
+	// line-height: 84px;
+}
+
+.fs-1 {
+	font-size: 4rem;
+}
+
+.fs-2 {
+	font-size: 1.2rem;
+}
+
+.fs-3 {
+	font-size: 0.9rem;
+}
+
+.body-box {
+	width: 480px;
 }

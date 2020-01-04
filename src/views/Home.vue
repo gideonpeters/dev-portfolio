@@ -2,29 +2,39 @@
 	<div class="home">
 		<div class="d-flex justify-around">
 			<div class="flex-fill text-left">
-				<div>
-					Hey there! <br />
-					I'm <span class="gideon-name">Gideon</span>
+				<div class="fs-1 css-typing">
+					Hey! <br />
+					I'm
+					<div class="gideon-name" style="display: inline-block">
+						Gideon
+					</div>
 				</div>
-				<div>Web/Mobile App Developer</div>
-				<div>//Vue, Laravel, Flutter</div>
+				<div class="body-font fs-2 mb-2">Web/Mobile App Developer</div>
+				<div class="body-font fs-3">//Vue, Laravel, Flutter</div>
 			</div>
 			<div class=" p-5 ">
-				<img alt="Vue logo" src="../assets/logo.png" />
+				<!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 			</div>
 		</div>
-		<!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
+import TypeIt from "typeit";
 
 export default {
 	name: "home",
 	components: {
 		// HelloWorld
+	},
+	mounted() {
+		new TypeIt(".css-typing", {
+			speed: 50,
+			waitUntilVisible: true,
+			loop: true
+		}).go();
 	}
 };
 </script>
