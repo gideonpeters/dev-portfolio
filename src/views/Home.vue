@@ -1,16 +1,15 @@
 <template>
 	<div class="home">
-		<div class=" d-flex">
+		<div class="d-flex justify-around">
 			<div class="flex-fill text-left">
-				<div>Hey there!</div>
-				<div class="d-flex">
-					<div>I'm</div>
-					<div class="pl-1">Gideon</div>
+				<div>
+					Hey there! <br />
+					I'm <span class="gideon-name">Gideon</span>
 				</div>
 				<div>Web/Mobile App Developer</div>
 				<div>//Vue, Laravel, Flutter</div>
 			</div>
-			<div class=" flex-fill p-5">
+			<div class=" p-5 ">
 				<img alt="Vue logo" src="../assets/logo.png" />
 			</div>
 		</div>
@@ -29,3 +28,9 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.gideon-name {
+	color: #e24444;
+}
+</style>
