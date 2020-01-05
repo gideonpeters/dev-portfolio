@@ -2,16 +2,16 @@
 	<div class="about">
 		<div class="d-flex">
 			<div class="flex-fill">
-				<h1 class=" title">About me.</h1>
+				<h1 class="title">About me.</h1>
 
 				<div class="body-box fs-2">
 					Full Stack web and mobile developer with over 3 years’
-					experience with frontend and backend frameworks. <br />
-					Passionate problem solver and attentive to details.
+					experience with frontend and backend frameworks.
+					<br />Passionate problem solver and attentive to details.
 				</div>
 			</div>
 			<div class="ml-5">
-				<img alt="Gideon picture" src="../assets/gidiprofile.png" />
+				<img alt="Gideon profile picture" src="../assets/gidiprofile.png" />
 			</div>
 		</div>
 	</div>
