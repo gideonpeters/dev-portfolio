@@ -5,13 +5,13 @@
 				<h1 class=" title">About me.</h1>
 
 				<div class="body-box fs-2">
-					Full stack web and mobile developer with over 3 years’
+					Full Stack web and mobile developer with over 3 years’
 					experience with frontend and backend frameworks. <br />
 					Passionate problem solver and attentive to details.
 				</div>
 			</div>
-			<div>
-				<!-- <img alt="Gideon picture" src="../assets/gidiprofile.png" /> -->
+			<div class="ml-5">
+				<img alt="Gideon picture" src="../assets/gidiprofile.png" />
 			</div>
 		</div>
 	</div>
@@ -37,11 +37,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.about {
-	background-image: url("../assets/gidiprofile.png");
-	background-size: 20%;
-	background-repeat: no-repeat;
-	background-position: 80% center;
-	height: 90vh;
-}
+// .about {
+// 	background-image: url("../assets/gidiprofile.png");
+// 	background-size: 20%;
+// 	background-repeat: no-repeat;
+// 	background-position: right center;
+// 	height: 100vh;
+// }
 </style>

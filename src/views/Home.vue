@@ -33,7 +33,7 @@ export default {
 		new TypeIt(".css-typing", {
 			speed: 50,
 			waitUntilVisible: true,
-			loop: true
+			loop: 40
 		}).go();
 	}
 };
@@ -42,5 +42,9 @@ export default {
 <style lang="scss" scoped>
 .gideon-name {
 	color: #e24444;
+}
+
+.css-typing {
+	height: 193px;
 }
 </style>

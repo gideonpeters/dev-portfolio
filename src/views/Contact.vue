@@ -8,7 +8,7 @@
 		</div>
 
 		<div class="row mt-4">
-			<div class="col-4">
+			<div class="col-12">
 				<form>
 					<div class="form-group">
 						<label for="exampleInputEmail1">Email address</label>
