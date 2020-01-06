@@ -23,13 +23,13 @@
 					</div>
 					<div class="social d-flex flex-column mb-2 text-center">
 						<div>
-							<GithubIcon />
+							<img color="primary" src="@/assets/svg/github.svg" />
 						</div>
 						<div>
-							<LinkedinIcon />
+							<img color="primary" src="@/assets/svg/linkedin.svg" />
 						</div>
 						<div>
-							<MediumIcon />
+							<img color="primary" src="@/assets/svg/medium.svg" />
 						</div>
 					</div>
 				</div>
@@ -50,20 +50,20 @@ import HomeIcon from "@/components/icons/HomeIcon";
 // import ProjectIcon from "@/components/icons/ProjectIcon";
 // import ContactIcon from "@/components/icons/ContactIcon";
 
-import GithubIcon from "@/components/icons/GithubIcon";
-import MediumIcon from "@/components/icons/MediumIcon";
-import LinkedinIcon from "@/components/icons/LinkedinIcon";
+// import GithubIcon from "@/components/icons/GithubIcon";
+// import MediumIcon from "@/components/icons/MediumIcon";
+// import LinkedinIcon from "@/components/icons/LinkedinIcon";
 
 export default {
 	components: {
-		HomeIcon,
+		HomeIcon
 		// AboutIcon,
 		// SkillsIcon,
 		// ProjectIcon,
 		// ContactIcon,
-		GithubIcon,
-		MediumIcon,
-		LinkedinIcon
+		// GithubIcon,
+		// MediumIcon,
+		// LinkedinIcon
 	}
 };
 </script>

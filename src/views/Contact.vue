@@ -12,40 +12,22 @@
 				<form>
 					<div class="form-group">
 						<label for="exampleInputEmail1">Email address</label>
-						<input
-							type="email"
-							class="form-control"
-							id="exampleInputEmail1"
-							aria-describedby="emailHelp"
-						/>
-						<small id="emailHelp" class="form-text text-muted"
-							>I'll never share your email with anyone
-							else.</small
-						>
+						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+						<small id="emailHelp" class="form-text text-muted">
+							I'll never share your email with anyone
+							else.
+						</small>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">Full Name</label>
-						<input
-							type="text"
-							class="form-control"
-							id="exampleInputPassword1"
-						/>
+						<input type="text" class="form-control" id="exampleInputPassword1" />
 					</div>
 					<div class="form-group">
-						<label for="exampleTextArea"
-							>What do you have to say?</label
-						>
-						<textarea
-							type="text"
-							rows="4"
-							class="form-control"
-							id="exampleInputPassword1"
-						/>
+						<label for="exampleTextArea">What do you have to say?</label>
+						<textarea type="text" rows="4" class="form-control" id="exampleInputPassword1" />
 					</div>
 
-					<button type="submit" class="btn btn-primary">
-						Submit
-					</button>
+					<button type="submit" class="btn btn-black">Submit</button>
 				</form>
 			</div>
 		</div>
@@ -64,3 +46,17 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.form-control {
+	background: #5e5e68;
+	border-radius: 28px;
+	color: #c4c4c4;
+	border: none;
+}
+
+.btn-black {
+	background-color: black;
+	color: white;
+}
+</style>
