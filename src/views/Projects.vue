@@ -10,7 +10,7 @@
 
 <style lang="scss" scoped>
 .project-list {
-	width: 70vw;
+	width: calc(100vw - 150px);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 20px;

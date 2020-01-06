@@ -1,7 +1,7 @@
 <template>
 	<div class="about">
-		<div class="d-flex">
-			<div class="flex-fill">
+		<div class="d-flex justify-content-between">
+			<div class>
 				<h1 class="title">About me.</h1>
 
 				<div class="body-box fs-2">
@@ -10,7 +10,7 @@
 					<br />Passionate problem solver and attentive to details.
 				</div>
 			</div>
-			<div class="ml-5">
+			<div class="mr-5 justify-content-center">
 				<img alt="Gideon profile picture" src="../assets/gidiprofile.png" />
 			</div>
 		</div>
@@ -37,11 +37,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .about {
-// 	background-image: url("../assets/gidiprofile.png");
-// 	background-size: 20%;
-// 	background-repeat: no-repeat;
-// 	background-position: right center;
-// 	height: 100vh;
-// }
+.about {
+	background-image: url("../assets/svg/skills-icon.svg");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 40% center;
+	width: calc(100vw - 150px);
+}
 </style>

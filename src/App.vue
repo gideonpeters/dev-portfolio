@@ -33,10 +33,8 @@
 						</div>
 					</div>
 				</div>
-				<div>
-					<div style=" padding-top: 150px ">
-						<router-view />
-					</div>
+				<div style="padding-top: 150px ">
+					<router-view />
 				</div>
 			</div>
 		</div>
@@ -91,6 +89,8 @@ export default {
 	height: 100vh;
 	background-color: #27272b;
 	overflow: hidden;
+	// width: calc(100vw - 150px);
+	// width: 90vw;
 }
 
 .sidebar {
