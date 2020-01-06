@@ -2,14 +2,35 @@
 	<div id="app">
 		<div class="body-view">
 			<div class="d-flex">
-				<div class="sidebar mr-5">
-					<div id="nav" class=" d-flex flex-column  text-center">
-						<div class="logo-icon mb-5"></div>
-						<router-link to="/">Home</router-link> |
-						<router-link to="/about">About</router-link> |
-						<router-link to="/skills">Skills</router-link> |
-						<router-link to="/projects">Projects</router-link> |
-						<router-link to="/contact">Contact</router-link> |
+				<div class="sidebar d-flex flex-column justify-content-between mr-5">
+					<div id="nav" class="d-flex flex-column text-center">
+						<div class="logo-icon mb-1"></div>
+						<router-link exact active-class="nav-active" to="/">
+							<HomeIcon />
+						</router-link>
+						<router-link exact active-class="nav-active" to="/about">
+							<img color="primary" src="@/assets/svg/about.svg" />
+						</router-link>
+						<router-link exact active-class="nav-active" to="/skills">
+							<img color="primary" src="@/assets/svg/skills.svg" />
+						</router-link>
+						<router-link exact active-class="nav-active" to="/projects">
+							<img color="primary" src="@/assets/svg/projects.svg" />
+						</router-link>
+						<router-link exact active-class="nav-active" to="/contact">
+							<img color="primary" src="@/assets/svg/contact.svg" />
+						</router-link>
+					</div>
+					<div class="social d-flex flex-column mb-2 text-center">
+						<div>
+							<GithubIcon />
+						</div>
+						<div>
+							<LinkedinIcon />
+						</div>
+						<div>
+							<MediumIcon />
+						</div>
 					</div>
 				</div>
 				<div>
@@ -22,6 +43,31 @@
 	</div>
 </template>
 
+<script>
+import HomeIcon from "@/components/icons/HomeIcon";
+// import AboutIcon from "@/components/icons/AboutIcon";
+// import SkillsIcon from "@/components/icons/SkillsIcon";
+// import ProjectIcon from "@/components/icons/ProjectIcon";
+// import ContactIcon from "@/components/icons/ContactIcon";
+
+import GithubIcon from "@/components/icons/GithubIcon";
+import MediumIcon from "@/components/icons/MediumIcon";
+import LinkedinIcon from "@/components/icons/LinkedinIcon";
+
+export default {
+	components: {
+		HomeIcon,
+		// AboutIcon,
+		// SkillsIcon,
+		// ProjectIcon,
+		// ContactIcon,
+		GithubIcon,
+		MediumIcon,
+		LinkedinIcon
+	}
+};
+</script>
+
 <style lang="scss">
 #app {
 	-webkit-font-smoothing: antialiased;
@@ -30,6 +76,10 @@
 	color: white;
 	background-color: #27272b;
 	// height: 100vh;
+}
+
+.nav-active {
+	color: white;
 }
 
 .body-view {
@@ -52,6 +102,10 @@
 #nav {
 	// padding: 30px;
 	// position: absolute;
+	height: 60%;
+	display: flex;
+	justify-content: space-between;
+	// margin-bottom: auto;
 
 	a {
 		font-weight: bold;
@@ -61,6 +115,13 @@
 			color: #42b983;
 		}
 	}
+}
+
+.social {
+	display: flex;
+	justify-content: space-between;
+	height: 20%;
+	// margin-top: auto;
 }
 
 .logo-icon {
