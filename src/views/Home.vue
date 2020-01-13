@@ -1,18 +1,18 @@
 <template>
 	<div class="home">
-		<div class="d-flex justify-around">
+		<div class="d-flex">
 			<div class="flex-fill text-left">
 				<div class="fs-1 css-typing">
-					Hey! <br />
-					I'm
-					<div class="gideon-name" style="display: inline-block">
+					Hey!
+					<br />I'm
+					<div class="gideon-name" style="display: inline">
 						Gideon
 					</div>
 				</div>
 				<div class="body-font fs-2 mb-2">Web/Mobile App Developer</div>
 				<div class="body-font fs-3">//Vue, Laravel, Flutter</div>
 			</div>
-			<div class=" p-5 ">
+			<div class="p-5">
 				<!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 			</div>
 		</div>
@@ -31,20 +31,34 @@ export default {
 	},
 	mounted() {
 		new TypeIt(".css-typing", {
-			speed: 50,
+			speed: 100,
 			waitUntilVisible: true,
-			loop: 40
+			loop: true,
+			cursor: false
 		}).go();
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+.home {
+	width: 100%;
+	height: 100%;
+
+	@media screen and (max-width: 700px) {
+		padding-top: 30px;
+		padding-left: 15px;
+	}
+}
 .gideon-name {
-	color: #e24444;
+	color: #42b983;
 }
 
 .css-typing {
-	height: 193px;
+	min-height: 183px;
+
+	@media screen and (max-width: 700px) {
+		font-size: 3.4rem;
+	}
 }
 </style>

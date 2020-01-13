@@ -5,6 +5,8 @@ import store from "./store";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/styles/scss/main.scss";
+import "@mdi/font/css/materialdesignicons.css";
+
 
 // import VueTyperPlugin from "vue-typer";
 

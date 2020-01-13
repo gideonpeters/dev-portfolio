@@ -1,13 +1,19 @@
 <template>
 	<div class="skills">
-		<h1 class="title">Skills.</h1>
-
-		<div class=" body-box body-font">
-			Most of my experience lies in frontend developement using Javascript
-			and the Vue framework majorly, I have also dabbled a bit with React.
-			I’m also proficient in CSS3/SASS/SCSS, ES6, TypeScript, Axios <br />
-			For the backend I’ve worked a lot with Laravel for RESTful APIs and
-			learnt a bit of NodeJS.
+		<h1 class="title">Skills</h1>
+		<div class="row">
+			<div class="col-lg-6 col-12">
+				<div class="body-box body-font">
+					Most of my experience lies in frontend developement using
+					Javascript frameworks like Vue and React. I’m also
+					proficient in CSS3/SASS/SCSS, TailwindCSS ES6, TypeScript,
+					Axios <br />
+					For the backend I’ve worked a lot with Laravel for RESTful
+					APIs. <br />
+					I also have some experience using Flutter for mobile
+					applications development for both iOS and Android
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

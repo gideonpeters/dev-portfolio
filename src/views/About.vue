@@ -1,17 +1,19 @@
 <template>
-	<div class="about">
-		<div class="d-flex justify-content-between">
-			<div class>
-				<h1 class="title">About me.</h1>
-
+	<div class="about px-3">
+		<h1 class="title">About me.</h1>
+		<div class="row justify-content-center align-items-start">
+			<div class="col-lg-7">
 				<div class="body-box fs-2">
 					Full Stack web and mobile developer with over 3 years’
 					experience with frontend and backend frameworks.
 					<br />Passionate problem solver and attentive to details.
 				</div>
 			</div>
-			<div class="mr-5 justify-content-center">
-				<img alt="Gideon profile picture" src="../assets/gidiprofile.png" />
+			<div class="col">
+				<img
+					alt="Gideon profile picture"
+					src="../assets/gidiprofile.png"
+				/>
 			</div>
 		</div>
 	</div>
@@ -35,13 +37,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.about {
-	background-image: url("../assets/svg/skills-icon.svg");
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: 40% center;
-	width: calc(100vw - 150px);
-}
-</style>
