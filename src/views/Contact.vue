@@ -4,6 +4,9 @@
 
 		<div class="body-font body-box">
 			I am available to work on your freelance projects; do reach out!
+
+			<div>+2347089324817</div>
+			<div>gideonpeters85@gmail.com</div>
 		</div>
 
 		<div class="row mt-4">

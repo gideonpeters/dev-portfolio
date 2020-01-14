@@ -1,5 +1,5 @@
 <template>
-	<div class="skills">
+	<div class="skills px-4">
 		<h1 class="title">Skills</h1>
 		<div class="row">
 			<div class="col-lg-6 col-12">
@@ -11,7 +11,10 @@
 					For the backend I’ve worked a lot with Laravel for RESTful
 					APIs. <br />
 					I also have some experience using Flutter for mobile
-					applications development for both iOS and Android
+					applications development for both iOS and Android <br />
+					I dabble in a lot of other technologies like Nuxt, Laravel
+					Nova; I really love to code, just for the fun of it and I
+					like challenging myself with problems.
 				</div>
 			</div>
 		</div>

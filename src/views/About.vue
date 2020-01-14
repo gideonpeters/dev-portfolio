@@ -4,9 +4,13 @@
 		<div class="row justify-content-center align-items-start">
 			<div class="col-lg-7">
 				<div class="body-box fs-2">
-					Full Stack web and mobile developer with over 3 years’
+					I'm a Full Stack web and mobile developer with over 3 years’
 					experience with frontend and backend frameworks.
-					<br />Passionate problem solver and attentive to details.
+					<br />I'm a passionate problem solver and attentive to
+					details.
+					<br />
+					I also love to sing like crazy and I'm good at it! Hopefully
+					you get to listen to my music soon!
 				</div>
 			</div>
 			<div class="col">

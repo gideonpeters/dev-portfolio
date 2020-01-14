@@ -1,3 +1,3 @@
-// module.exports = {
-// 	publicPath: "dev-portfolio"
-// };
+module.exports = {
+	publicPath: process.env.NODE_ENV === "production" ? "/dev-portfolio/" : "/"
+};
