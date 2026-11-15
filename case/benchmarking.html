@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Benchmarking AI Agents · Gideon Peters</title>
+<meta name="description" content="Case study: a reproducible harness for comparing the models behind an AI agent on accuracy, groundedness, safety, cost and latency." />
+<link rel="icon" href="../favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<header>
+  <a href="../index.html" class="logo"><i></i>gideon peters</a>
+  <nav>
+    <a href="../index.html#work" class="hide-sm" data-scramble>work</a>
+    <a href="../index.html#contact" data-scramble>contact</a>
+    <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+      <span class="bars"><b></b><b></b><b></b><b></b></span><span class="lbl">sound off</span>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap" style="width:100%">
+      <a class="back" href="../index.html#work"><span class="arrow">←</span> all work</a>
+      <div class="eyebrow"><span><span class="dot">●</span> case study 01</span><span>evaluation</span><span>2026</span></div>
+      <h1 aria-label="Benchmarking AI agents you can trust.">
+        <span class="line" data-split>Benchmarking AI</span>
+        <span class="line" data-split>agents <em>you can trust.</em></span>
+      </h1>
+      <div class="meta rv">
+        <div><span>context</span>An AI agent in a regulated domain</div>
+        <div><span>my role</span>Evaluation engineering, co-author of the benchmarking changelog</div>
+        <div><span>stack</span>Python, LLM judges, versioned datasets</div>
+        <div><span>read more</span><a href="https://benchmarking.care.medeloop.ai/blog/batch_ecdd5f00-586a-4f6b-8c87-5a7741e757db" target="_blank" rel="noopener">Entry 1 ↗</a><a href="https://benchmarking.care.medeloop.ai/blog/batch_acd09493-727b-44da-a53c-1360806bb5e4" target="_blank" rel="noopener">Entry 2 ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">01</span> / the problem</span><span>why</span></div>
+      <div class="split">
+        <h2 class="rv">Choosing the model is a safety decision, not a preference.</h2>
+        <div class="prose rv">
+          <p>The agent could run on any of two dozen frontier models, and those models often disagree on the same input. In a domain where every answer has to trace back to a source record, "it seemed better in testing" isn't good enough.</p>
+          <p>We needed a way to compare models on <strong>equal footing</strong>: the same agent, the same prompts and the same data, with only the model swapped. Scores had to be reproducible enough to stand up to scrutiny.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">02</span> / scale</span><span>so far</span></div>
+      <div class="stats rv">
+        <div class="stat"><b data-count="153" data-suffix="+">0</b><span>versioned, hash-stamped benchmark runs</span></div>
+        <div class="stat"><b data-count="24">0</b><span>models evaluated behind one agent</span></div>
+        <div class="stat"><b data-count="57" data-suffix="K+">0</b><span>case-level evaluations</span></div>
+        <div class="stat"><b data-count="4">0</b><span>trust dimensions every metric maps to</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">03</span> / approach</span><span>how</span></div>
+      <div class="split">
+        <h2 class="rv">Score what users actually need, not how the model works.</h2>
+        <div class="prose rv">
+          <p>Every metric falls under one of four questions: <strong>Is it correct? Is it grounded in the source? Could it cause harm? Will it hold up in production?</strong> That last one means commit rate, cost and latency are tracked on every run, not left for later.</p>
+          <ul>
+            <li><strong>Hold the agent fixed, swap the model.</strong> That turns cost, latency and accuracy into one comparable picture per run.</li>
+            <li><strong>Score in a shared category space.</strong> The same condition can be coded a dozen ways, so both outputs and gold labels are mapped to a validated category index before scoring, not string-matched.</li>
+            <li><strong>Report the strict and the lenient score side by side.</strong> One number either understates or overstates what the model got right, so we publish both.</li>
+            <li><strong>Don't penalize the dataset's gaps.</strong> When a model surfaces a real finding the gold label never recorded, it gets credit instead of a false positive.</li>
+            <li><strong>Count infrastructure failures as failures, not wrong answers.</strong> When a model's endpoint errors, it's logged, kept out of the quality score and retried.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">04</span> / a result</span><span>batch 1 → batch 2</span></div>
+      <div class="split">
+        <h2 class="rv">A prompt rework, tested at 15× the sample size.</h2>
+        <div class="prose rv">
+          <p>The first batch showed that recall, not precision, was holding every model back: models stayed quiet about real conditions far more often than they invented them. We reworked the extraction prompt and re-ran all 21 models on 300 cases. The first 20 cases were identical to the original batch, so the before-and-after comparison is clean.</p>
+          <p><strong>Recall improved for all 21 models</strong>, by between +4.9 and +25.5 points. The cohort miss rate fell from 49.2% to 35.4%.</p>
+        </div>
+      </div>
+      <div style="height:clamp(40px,7vh,72px)"></div>
+      <div class="chart rv">
+        <div class="chart-title"><span>miss rate by category, pooled across 21 models</span><i><span>batch 1</span><span class="a">batch 2</span></i></div>
+        <div class="hrow"><span>Cohort overall</span><div class="track"><div class="fill ghost" style="--v:49.2"></div></div><span>49.2%</span></div>
+        <div class="hrow"><span></span><div class="track"><div class="fill" style="--v:35.4"></div></div><span>35.4%</span></div>
+        <div class="hrow"><span>Heart failure</span><div class="track"><div class="fill ghost" style="--v:84.8"></div></div><span>84.8%</span></div>
+        <div class="hrow"><span></span><div class="track"><div class="fill" style="--v:32.4"></div></div><span>32.4%</span></div>
+        <div class="hrow"><span>Coagulopathy</span><div class="track"><div class="fill ghost" style="--v:71.0"></div></div><span>71.0%</span></div>
+        <div class="hrow"><span></span><div class="track"><div class="fill" style="--v:59.0"></div></div><span>59.0%</span></div>
+        <div class="hrow"><span>Liver disease</span><div class="track"><div class="fill ghost" style="--v:42.1"></div></div><span>42.1%</span></div>
+        <div class="hrow"><span></span><div class="track"><div class="fill" style="--v:32.4"></div></div><span>32.4%</span></div>
+        <p class="note-sm" style="margin-top:12px">Lower is better. Batch 2 covers 300 cases × 21 models (6,300 case–model pairs). The 0.49% of pairs that returned an inference error are excluded and queued for retry.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">05</span> / what we learned</span><span>takeaways</span></div>
+      <div class="stats rv" style="margin-bottom:clamp(40px,7vh,72px)">
+        <div class="stat"><b data-count="55" data-suffix="×">0</b><span>cost spread between cheapest and priciest model</span></div>
+        <div class="stat"><b data-count="14" data-prefix="~" data-suffix=" pts">0</b><span>of recall that spread actually buys</span></div>
+        <div class="stat"><b data-count="74.6" data-dec="1" data-suffix="%">0</b><span>best recall, from a mid-priced model</span></div>
+        <div class="stat"><b data-count="7" data-suffix="×">0</b><span>over-calling found on one rare category</span></div>
+      </div>
+      <div class="prose rv" style="max-width:820px">
+        <p class="callout">The most expensive model was not the most accurate. One of the cheapest sat within a few points of the leader.</p>
+        <ul>
+          <li><strong>Small samples rank models badly.</strong> Rankings on a 20-case convenience sample reshuffled at 300 cases, so the next step is frozen, stratified validation splits rather than more of the same sampling.</li>
+          <li><strong>Perfect sensitivity can hide a bad habit.</strong> On one rare, sensitive category, every model caught every true case but also asserted it 7× more often than it was present. That points to box-ticking rather than reasoning, and the fix is a narrow evidence-required rule.</li>
+          <li><strong>Some failures aren't the model's.</strong> One model scored zero because its endpoint failed on every request. We flagged it and re-ran it instead of ranking it last.</li>
+          <li><strong>Publish the uncertainty.</strong> Every entry says which results are solid and which are early signals.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <a class="next" href="dom-performance.html" data-label="next">
+        <span>next case study →</span>
+        <h3>Can LLMs fix slow web pages?</h3>
+      </a>
+      <div class="links" style="margin-top:0">
+        <span>© <span class="yr-now"></span> Gideon Peters</span>
+        <nav>
+          <a href="https://www.linkedin.com/in/gideonpeters/" target="_blank" rel="noopener" data-scramble>linkedin</a>
+          <a href="https://github.com/gideonpeters" target="_blank" rel="noopener" data-scramble>github</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="../assets/site.js"></script>
+</body>
+</html>
