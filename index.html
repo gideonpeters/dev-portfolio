@@ -1,1 +1,568 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/dev-portfolio/favicon.ico"><link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap" rel="stylesheet"><title>Gideon Peters</title><link href="/dev-portfolio/css/about.367b162a.css" rel="prefetch"><link href="/dev-portfolio/js/about.0b642777.js" rel="prefetch"><link href="/dev-portfolio/css/app.447a3e82.css" rel="preload" as="style"><link href="/dev-portfolio/css/chunk-vendors.cb6671d7.css" rel="preload" as="style"><link href="/dev-portfolio/js/app.06ff59d7.js" rel="preload" as="script"><link href="/dev-portfolio/js/chunk-vendors.47c895ea.js" rel="preload" as="script"><link href="/dev-portfolio/css/chunk-vendors.cb6671d7.css" rel="stylesheet"><link href="/dev-portfolio/css/app.447a3e82.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but portfolio doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="/dev-portfolio/js/chunk-vendors.47c895ea.js"></script><script src="/dev-portfolio/js/app.06ff59d7.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gideon Peters</title>
+<meta name="description" content="Gideon Peters — Staff Software Engineer building performant AI/ML systems. Montreal." />
+<link rel="icon" href="favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b0b0c;
+    --bg-2: #131315;
+    --fg: #ededea;
+    --muted: #8a8a86;
+    --faint: #2a2a2d;
+    --accent: #5fe3b0;
+    --sans: "Inter Tight", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --pad: clamp(16px, 5vw, 64px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--fg); font-family: var(--sans);
+    font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: none; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; }
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  /* ---------- background field ---------- */
+  #field { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .9; }
+  .grain { position: fixed; inset: -50%; z-index: 1; pointer-events: none; opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1.2s steps(4) infinite; }
+  @keyframes grain { 0%{transform:translate(0,0)} 25%{transform:translate(-3%,2%)} 50%{transform:translate(2%,-3%)} 75%{transform:translate(-2%,-1%)} }
+
+  /* ---------- cursor ---------- */
+  .cursor, .cursor-ring { position: fixed; top: 0; left: 0; z-index: 100; pointer-events: none;
+    border-radius: 50%; transform: translate3d(-100px,-100px,0); }
+  .cursor { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--fg); mix-blend-mode: difference; }
+  .cursor-ring { width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1px solid rgba(237,237,234,.35);
+    display: grid; place-items: center; transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease); }
+  .cursor-ring span { font: 500 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--bg); opacity: 0; transition: opacity .2s; }
+  .cursor-ring.is-link { width: 56px; height: 56px; margin: -28px 0 0 -28px; border-color: var(--accent); background: rgba(95,227,176,.08); }
+  .cursor-ring.is-label { width: 84px; height: 84px; margin: -42px 0 0 -42px; background: var(--accent); border-color: var(--accent); }
+  .cursor-ring.is-label span { opacity: 1; }
+  .cursor-ring.is-down { width: 24px; height: 24px; margin: -12px 0 0 -12px; }
+  .cursor-ring.is-text { width: 2px; height: 28px; margin: -14px 0 0 -1px; border-radius: 1px; background: var(--fg); border-color: transparent; }
+  body:not(.has-cursor) .cursor, body:not(.has-cursor) .cursor-ring { display: none; }
+
+  /* ---------- nav ---------- */
+  header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between;
+    padding: 20px var(--pad); mix-blend-mode: difference; }
+  .logo { font: 500 14px/1 var(--mono); letter-spacing: .02em; display: flex; gap: 10px; align-items: center; }
+  .logo i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(95,227,176,.6); animation: pulse 2.4s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(95,227,176,0); } 100% { box-shadow: 0 0 0 0 rgba(95,227,176,0); } }
+  nav { display: flex; gap: clamp(14px, 3vw, 32px); align-items: center; font: 400 13px/1 var(--mono); text-transform: lowercase; }
+  nav a { position: relative; padding: 6px 0; color: var(--muted); transition: color .25s; }
+  nav a:hover, nav a.active { color: var(--fg); }
+  nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease); }
+  nav a:hover::after, nav a.active::after { transform: scaleX(1); transform-origin: left; }
+  .sound { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--faint); border-radius: 99px; font: 400 12px/1 var(--mono); color: var(--muted); transition: border-color .25s, color .25s; }
+  .sound:hover { border-color: var(--muted); color: var(--fg); }
+  .bars { display: flex; gap: 2px; align-items: flex-end; height: 10px; }
+  .bars b { width: 2px; height: 3px; background: currentColor; border-radius: 1px; transition: height .3s; }
+  .sound.on { color: var(--accent); border-color: rgba(95,227,176,.4); }
+  .sound.on .bars b { animation: eq 1s var(--ease) infinite alternate; }
+  .sound.on .bars b:nth-child(2) { animation-delay: -.3s; } .sound.on .bars b:nth-child(3) { animation-delay: -.6s; } .sound.on .bars b:nth-child(4) { animation-delay: -.15s; }
+  @keyframes eq { 0% { height: 2px; } 100% { height: 10px; } }
+
+  main { position: relative; z-index: 2; }
+  section { padding: 0 var(--pad); }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+
+  /* ---------- hero ---------- */
+  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(40px, 8vh, 96px); }
+  .eyebrow { font: 400 12px/1.4 var(--mono); color: var(--muted); letter-spacing: .04em; display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 28px; }
+  .eyebrow .dot { color: var(--accent); }
+  h1 { font-weight: 400; font-size: clamp(44px, 9.5vw, 148px); line-height: .95; letter-spacing: -.045em; }
+  h1 .line { display: block; overflow: hidden; padding-bottom: .06em; }
+  h1 .ch { display: inline-block; transform: translateY(110%); transition: transform 1s var(--ease), color .3s, opacity .3s; will-change: transform; }
+  .ready h1 .ch { transform: none; }
+  h1 .ch:hover { color: var(--accent); transition: transform .4s var(--ease), color 0s; transform: translateY(-.08em) !important; }
+  h1 em { font-style: normal; color: var(--muted); }
+  .hero-foot { margin-top: clamp(32px, 6vh, 64px); display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; }
+  .hero-foot p { max-width: 520px; color: var(--muted); font-size: clamp(16px, 1.4vw, 19px); }
+  .hero-foot p strong { color: var(--fg); font-weight: 500; }
+  .scroll-hint { font: 400 12px/1 var(--mono); color: var(--muted); display: flex; gap: 10px; align-items: center; }
+  .scroll-hint i { width: 1px; height: 40px; background: linear-gradient(var(--fg), transparent); animation: drip 2s var(--ease) infinite; transform-origin: top; }
+  @keyframes drip { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- section heads ---------- */
+  .sec { padding-top: clamp(96px, 16vh, 180px); }
+  .sec-head { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--faint); padding-top: 18px; margin-bottom: clamp(40px, 7vh, 72px); font: 400 12px/1 var(--mono); color: var(--muted); text-transform: lowercase; }
+  .sec-head .n { color: var(--accent); }
+
+  /* ---------- about ---------- */
+  .about-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(32px, 6vw, 96px); }
+  .lede { font-size: clamp(26px, 3.4vw, 46px); line-height: 1.15; letter-spacing: -.025em; font-weight: 400; }
+  .lede .w { opacity: .18; transition: opacity .5s; }
+  .lede .w.lit { opacity: 1; }
+  .facts { display: grid; gap: 0; align-content: start; }
+  .fact { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--faint); font-size: 15px; }
+  .fact span:first-child { font: 400 12px/1.8 var(--mono); color: var(--muted); }
+  .fact span:last-child { text-align: right; }
+  .clock { font-variant-numeric: tabular-nums; }
+
+  /* ---------- work list ---------- */
+  .work { list-style: none; }
+  .row { position: relative; display: grid; grid-template-columns: 60px 1.4fr 1fr 120px; gap: 24px; align-items: center; padding: 28px 0; border-bottom: 1px solid var(--faint); transition: padding .5s var(--ease); }
+  .row::before { content: ""; position: absolute; inset: 0; background: var(--bg-2); transform: scaleY(0); transform-origin: bottom; transition: transform .5s var(--ease); z-index: -1; }
+  .row:hover::before { transform: scaleY(1); }
+  .row:hover { padding-left: 20px; padding-right: 20px; }
+  .row .idx { font: 400 12px/1 var(--mono); color: var(--muted); }
+  .row h3 { font-weight: 400; font-size: clamp(22px, 2.6vw, 36px); letter-spacing: -.02em; line-height: 1.1; }
+  .row p { color: var(--muted); font-size: 15px; }
+  .row .tag { font: 400 12px/1 var(--mono); color: var(--muted); text-align: right; display: flex; gap: 10px; justify-content: flex-end; align-items: center; }
+  .row .arrow { display: inline-block; transition: transform .5s var(--ease), color .3s; }
+  .row:hover .arrow { transform: rotate(-45deg); color: var(--accent); }
+  .preview { position: fixed; top: 0; left: 0; width: 300px; height: 200px; z-index: 40; pointer-events: none; border-radius: 6px; overflow: hidden;
+    opacity: 0; transform: translate3d(-50%, -50%, 0) scale(.8); transition: opacity .3s, transform .4s var(--ease); }
+  .preview.on { opacity: 1; }
+  .preview canvas { width: 100%; height: 100%; display: block; }
+
+  /* ---------- stack ---------- */
+  .stack { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { font: 400 13px/1 var(--mono); padding: 12px 16px; border: 1px solid var(--faint); border-radius: 99px; color: var(--muted);
+    transition: color .25s, border-color .25s, background .25s, transform .4s var(--ease); }
+  .chip:hover { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+
+  /* ---------- notes ---------- */
+  .notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--faint); border: 1px solid var(--faint); }
+  .note { background: var(--bg); padding: 28px; min-height: 180px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; transition: background .4s; }
+  .note:hover { background: var(--bg-2); }
+  .note .yr { font: 400 12px/1 var(--mono); color: var(--accent); }
+  .note h4 { font-weight: 400; font-size: 20px; letter-spacing: -.01em; line-height: 1.25; }
+  .note p { color: var(--muted); font-size: 14px; }
+
+  /* ---------- contact ---------- */
+  .contact { padding-bottom: 48px; }
+  .big { display: inline-block; font-size: clamp(40px, 10vw, 160px); letter-spacing: -.05em; line-height: .95; font-weight: 400; position: relative; }
+  .big .u { position: absolute; left: 0; right: 0; bottom: -.05em; height: 2px; background: var(--fg); transform: scaleX(.15); transform-origin: left; transition: transform .8s var(--ease); }
+  .big:hover .u { transform: scaleX(1); background: var(--accent); }
+  .contact-sub { margin-top: 28px; color: var(--muted); display: flex; gap: 12px; align-items: center; font: 400 13px/1 var(--mono); }
+  .links { margin-top: clamp(64px, 12vh, 140px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; font: 400 13px/1 var(--mono); color: var(--muted); border-top: 1px solid var(--faint); padding-top: 22px; }
+  .links nav { gap: 24px; }
+  .magnetic { display: inline-block; will-change: transform; transition: transform .5s var(--ease); }
+
+  /* ---------- toast ---------- */
+  .toast { position: fixed; left: 50%; bottom: 28px; z-index: 90; transform: translate(-50%, 200%); opacity: 0; background: var(--fg); color: var(--bg); font: 500 12px/1 var(--mono); padding: 12px 16px; border-radius: 99px; transition: transform .5s var(--ease), opacity .3s; }
+  .toast.on { transform: translate(-50%, 0); opacity: 1; }
+
+  /* ---------- reveal ---------- */
+  .rv { opacity: 0; transform: translateY(24px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    nav .hide-sm { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 32px 1fr; gap: 6px 14px; }
+    .row p { grid-column: 2; }
+    .row .tag { grid-column: 2; justify-content: flex-start; }
+    .notes { grid-template-columns: 1fr; }
+    .hero-foot { grid-template-columns: 1fr; }
+    .scroll-hint { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    h1 .ch, .rv { transform: none; opacity: 1; }
+    .lede .w { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
+<div class="preview" aria-hidden="true"><canvas width="600" height="400"></canvas></div>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<header>
+  <a href="#top" class="logo" data-sfx="tick"><i></i>gideon peters</a>
+  <nav>
+    <a href="#about" class="hide-sm" data-scramble>about</a>
+    <a href="#work" class="hide-sm" data-scramble>work</a>
+    <a href="#contact" data-scramble>contact</a>
+    <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+      <span class="bars"><b></b><b></b><b></b><b></b></span><span class="lbl">sound off</span>
+    </button>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap" style="width:100%">
+      <div class="eyebrow">
+        <span><span class="dot">●</span> staff software engineer</span>
+        <span>montreal, qc</span>
+        <span>ai / ml systems</span>
+      </div>
+      <h1 aria-label="Building fast, careful AI systems.">
+        <span class="line" data-split>Building fast,</span>
+        <span class="line" data-split>careful <em>AI systems.</em></span>
+      </h1>
+      <div class="hero-foot">
+        <p class="rv">I'm <strong>Gideon</strong> — I build highly performant AI/ML systems at <strong>Medeloop</strong>, where agents turn real-world health data into research people can trust.</p>
+        <div class="scroll-hint"><i></i>scroll</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="sec" id="about">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">01</span> / about</span><span>who</span></div>
+      <div class="about-grid">
+        <p class="lede" data-words>I started out shipping web and mobile apps with Vue, Laravel and Flutter. These days I work on the systems underneath AI products — making them fast, inspectable and safe enough for regulated health research. I care about details, I like hard problems, and I sing like crazy.</p>
+        <div class="facts rv">
+          <div class="fact"><span>now</span><span>Staff SWE, Medeloop</span></div>
+          <div class="fact"><span>based</span><span>Montreal, Canada</span></div>
+          <div class="fact"><span>local time</span><span class="clock" id="clock">--:--:--</span></div>
+          <div class="fact"><span>focus</span><span>LLM agents, perf, infra</span></div>
+          <div class="fact"><span>parle</span><span>English, Français</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="sec" id="work">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">02</span> / selected work</span><span>then → now</span></div>
+      <ul class="work">
+        <li><a class="row rv" href="https://www.linkedin.com/company/medeloop/" target="_blank" rel="noopener" data-label="visit" data-hue="158">
+          <span class="idx">01</span><h3>Medeloop Analytics</h3><p>AI research agents for real-world evidence — cohort building, study design and reproducible analysis.</p><span class="tag">current <span class="arrow">→</span></span></a></li>
+        <li><a class="row rv" href="https://github.com/gideonpeters/dom-llm" target="_blank" rel="noopener" data-label="read" data-hue="265">
+          <span class="idx">02</span><h3>LLMs × DOM performance</h3><p>Research on automated DOM-level fixes for web performance issues. Published at MSR '26.</p><span class="tag">paper <span class="arrow">→</span></span></a></li>
+        <li><a class="row rv" href="https://github.com/gideonpeters/weserve-app" target="_blank" rel="noopener" data-label="code" data-hue="28">
+          <span class="idx">03</span><h3>WeServe</h3><p>Frontend for a mobile cleaning-service booking app.</p><span class="tag">vue <span class="arrow">→</span></span></a></li>
+        <li><a class="row rv" href="https://github.com/gideonpeters/fem-algos" target="_blank" rel="noopener" data-label="code" data-hue="200">
+          <span class="idx">04</span><h3>Daily algorithms</h3><p>A data-structures and algorithms habit, implemented in TypeScript.</p><span class="tag">typescript <span class="arrow">→</span></span></a></li>
+        <li><a class="row rv" href="https://github.com/gideonpeters?tab=repositories" target="_blank" rel="noopener" data-label="all" data-hue="320">
+          <span class="idx">05</span><h3>Everything else</h3><p>75+ public repos — Vue, Nuxt, Laravel, Flutter, Python.</p><span class="tag">github <span class="arrow">→</span></span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="sec" id="stack">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">03</span> / toolbox</span><span>hover me</span></div>
+      <div class="stack rv">
+        <span class="chip magnetic">Python</span><span class="chip magnetic">TypeScript</span><span class="chip magnetic">LLM agents</span>
+        <span class="chip magnetic">Databricks</span><span class="chip magnetic">Vue / Nuxt</span><span class="chip magnetic">React</span>
+        <span class="chip magnetic">Laravel</span><span class="chip magnetic">Flutter</span><span class="chip magnetic">Web performance</span>
+        <span class="chip magnetic">Tailwind</span><span class="chip magnetic">System design</span><span class="chip magnetic">Evaluation</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="sec" id="notes">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">04</span> / along the way</span><span>highlights</span></div>
+      <div class="notes">
+        <div class="note rv"><span class="yr">2026</span><div><h4>MSR '26 publication</h4><p>Evaluating LLMs for automated DOM-level resolution of web performance issues.</p></div></div>
+        <div class="note rv"><span class="yr">2021</span><div><h4>Wings Technology Award</h4><p>For contributions to tech among my graduating class.</p></div></div>
+        <div class="note rv"><span class="yr">2020</span><div><h4>HNGi7 finalist</h4><p>One of 200 finalists from 10,000+ interns worldwide.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="sec contact" id="contact">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">05</span> / contact</span><span>say hi</span></div>
+      <button class="big magnetic" id="email" data-label="copy" data-email="gideonpeters85@gmail.com">Let's talk.<span class="u"></span></button>
+      <div class="contact-sub">click to copy · gideonpeters85@gmail.com</div>
+      <div class="links">
+        <span>© <span id="yr"></span> Gideon Peters</span>
+        <nav>
+          <a href="https://www.linkedin.com/in/gideonpeters/" target="_blank" rel="noopener" data-scramble>linkedin</a>
+          <a href="https://github.com/gideonpeters" target="_blank" rel="noopener" data-scramble>github</a>
+          <a href="mailto:gideonpeters85@gmail.com" data-scramble>email</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = matchMedia("(pointer: fine)").matches;
+  const store = { get(k){ try { return localStorage.getItem(k); } catch { return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch {} } };
+
+  /* ================= AUDIO ================= */
+  // Everything is synthesized with Web Audio — no files to load.
+  const Audio = {
+    ctx: null, master: null, on: false, pad: null, last: 0,
+    scale: [0, 2, 4, 7, 9, 12, 14, 16, 19, 21], // major pentatonic
+    init() {
+      if (this.ctx) return;
+      const C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      this.ctx = new C();
+      this.master = this.ctx.createGain(); this.master.gain.value = 0;
+      const comp = this.ctx.createDynamicsCompressor();
+      // simple feedback delay for a little space
+      const delay = this.ctx.createDelay(); delay.delayTime.value = .23;
+      const fb = this.ctx.createGain(); fb.gain.value = .28;
+      const wet = this.ctx.createGain(); wet.gain.value = .22;
+      const lp = this.ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 2400;
+      this.master.connect(comp); this.master.connect(delay);
+      delay.connect(lp); lp.connect(fb); fb.connect(delay); lp.connect(wet); wet.connect(comp);
+      comp.connect(this.ctx.destination);
+    },
+    set(v) {
+      this.init(); if (!this.ctx) return;
+      this.on = v; this.ctx.resume();
+      const t = this.ctx.currentTime;
+      this.master.gain.cancelScheduledValues(t);
+      this.master.gain.setTargetAtTime(v ? .55 : 0, t, .08);
+      v ? this.startPad() : this.stopPad();
+    },
+    hz(step, base = 523.25) { const s = this.scale[((step % this.scale.length) + this.scale.length) % this.scale.length]; return base * Math.pow(2, s / 12); },
+    blip({ f = 880, type = "sine", dur = .12, vol = .12, glide = 0 } = {}) {
+      if (!this.on) return;
+      const now = this.ctx.currentTime; if (now - this.last < .025) return; this.last = now;
+      const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+      o.type = type; o.frequency.setValueAtTime(f, now);
+      if (glide) o.frequency.exponentialRampToValueAtTime(f * glide, now + dur);
+      g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(vol, now + .006); g.gain.exponentialRampToValueAtTime(.0001, now + dur);
+      o.connect(g); g.connect(this.master); o.start(now); o.stop(now + dur + .02);
+    },
+    hover(i = 0) { this.blip({ f: this.hz(i), dur: .18, vol: .07, type: "sine" }); },
+    tick() { this.blip({ f: 1800, dur: .03, vol: .05, type: "triangle" }); },
+    click() { this.blip({ f: 330, dur: .16, vol: .16, type: "triangle", glide: 2 }); },
+    chord() { [0, 2, 4].forEach((s, k) => setTimeout(() => this.blip({ f: this.hz(s + 2, 392), dur: .6, vol: .08 }), k * 70)); },
+    startPad() {
+      if (this.pad || reduced) return;
+      const c = this.ctx, out = c.createGain(); out.gain.value = 0; out.connect(this.master);
+      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 500; lp.Q.value = .6; lp.connect(out);
+      const oscs = [130.81, 196, 246.94].map((f, i) => { const o = c.createOscillator(); o.type = "sine"; o.frequency.value = f; o.detune.value = (i - 1) * 6; o.connect(lp); o.start(); return o; });
+      out.gain.setTargetAtTime(.035, c.currentTime, 1.2);
+      this.pad = { out, lp, oscs };
+    },
+    stopPad() {
+      if (!this.pad) return; const { out, oscs } = this.pad, t = this.ctx.currentTime;
+      out.gain.setTargetAtTime(0, t, .3); oscs.forEach(o => o.stop(t + 1.5)); this.pad = null;
+    },
+    // cursor speed opens the pad's filter
+    motion(speed, x) {
+      if (!this.pad) return;
+      const t = this.ctx.currentTime;
+      this.pad.lp.frequency.setTargetAtTime(400 + Math.min(speed, 60) * 28, t, .25);
+    }
+  };
+
+  const soundBtn = $("#sound");
+  const setSound = v => {
+    Audio.set(v); soundBtn.classList.toggle("on", v); soundBtn.setAttribute("aria-pressed", v);
+    $(".lbl", soundBtn).textContent = v ? "sound on" : "sound off"; store.set("sound", v ? "1" : "0");
+    if (v) Audio.chord();
+  };
+  soundBtn.addEventListener("click", () => setSound(!Audio.on));
+  addEventListener("keydown", e => { if (e.key.toLowerCase() === "m" && !e.metaKey && !e.ctrlKey && e.target === document.body) setSound(!Audio.on); });
+
+  /* ================= CURSOR ================= */
+  const dot = $(".cursor"), ring = $(".cursor-ring"), label = $("span", ring);
+  const m = { x: innerWidth / 2, y: innerHeight / 2 }, r = { x: m.x, y: m.y }, prev = { x: m.x, y: m.y };
+  let speed = 0;
+  if (fine && !reduced) {
+    document.body.classList.add("has-cursor");
+    addEventListener("pointermove", e => { m.x = e.clientX; m.y = e.clientY; }, { passive: true });
+    addEventListener("pointerdown", () => ring.classList.add("is-down"));
+    addEventListener("pointerup", () => ring.classList.remove("is-down"));
+    document.addEventListener("pointerleave", () => { dot.style.opacity = ring.style.opacity = 0; });
+    document.addEventListener("pointerenter", () => { dot.style.opacity = ring.style.opacity = 1; });
+  }
+  const hoverables = "a, button, .chip";
+  document.addEventListener("pointerover", e => {
+    const el = e.target.closest(hoverables + ", [data-label], p, h3, .lede");
+    ring.classList.remove("is-link", "is-label", "is-text");
+    if (!el) return;
+    if (el.dataset.label) { ring.classList.add("is-label"); label.textContent = el.dataset.label; }
+    else if (el.matches(hoverables)) ring.classList.add("is-link");
+    else if (el.matches("p, .lede")) ring.classList.add("is-text");
+  });
+
+  // sounds on hover — each interactive element gets its own note
+  $$(hoverables).forEach((el, i) => {
+    el.addEventListener("pointerenter", () => Audio.hover(i));
+    el.addEventListener("click", () => Audio.click());
+  });
+
+  /* ================= MAGNETIC ================= */
+  $$(".magnetic, .sound, nav a").forEach(el => {
+    el.addEventListener("pointermove", e => {
+      if (!fine || reduced) return;
+      const b = el.getBoundingClientRect();
+      const dx = e.clientX - (b.left + b.width / 2), dy = e.clientY - (b.top + b.height / 2);
+      const k = el.classList.contains("big") ? .12 : .3;
+      el.style.transform = `translate(${dx * k}px, ${dy * k}px)`;
+    });
+    el.addEventListener("pointerleave", () => { el.style.transform = ""; });
+  });
+
+  /* ================= TEXT SCRAMBLE ================= */
+  const glyphs = "!<>-_\\/[]{}—=+*^?#abcdefghijklmnopqrstuvwxyz";
+  $$("[data-scramble]").forEach(el => {
+    const orig = el.textContent; let raf;
+    el.addEventListener("pointerenter", () => {
+      if (reduced) return; cancelAnimationFrame(raf); let f = 0;
+      const run = () => {
+        el.textContent = orig.split("").map((c, i) => i < f / 2 ? c : glyphs[Math.random() * glyphs.length | 0]).join("");
+        if (f++ < orig.length * 2) { if (f % 3 === 0) Audio.tick(); raf = requestAnimationFrame(run); } else el.textContent = orig;
+      };
+      run();
+    });
+  });
+
+  /* ================= HERO SPLIT ================= */
+  let ci = 0;
+  $$("[data-split]").forEach(line => {
+    const walk = node => [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(word => {
+          if (!word) return;
+          if (/^\s+$/.test(word)) { frag.appendChild(document.createTextNode(" ")); return; }
+          const wEl = document.createElement("span"); wEl.style.whiteSpace = "nowrap"; wEl.setAttribute("aria-hidden", "true");
+          [...word].forEach(c => {
+            const s = document.createElement("span"); s.className = "ch"; s.textContent = c;
+            s.style.transitionDelay = `${.25 + ci++ * .028}s`;
+            const idx = ci;
+            s.addEventListener("pointerenter", () => { s.style.transitionDelay = "0s"; Audio.hover(idx); });
+            wEl.appendChild(s);
+          });
+          frag.appendChild(wEl);
+        });
+        n.replaceWith(frag);
+      } else walk(n);
+    });
+    walk(line);
+  });
+  void document.body.offsetHeight; // commit the hidden state before revealing
+  setTimeout(() => document.body.classList.add("ready"), 80);
+
+  /* ================= SCROLL REVEALS ================= */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
+  $$(".rv").forEach((el, i) => { el.style.transitionDelay = `${(i % 5) * 60}ms`; io.observe(el); });
+
+  // word-by-word lighting for the about lede, driven by scroll position
+  const lede = $("[data-words]");
+  lede.innerHTML = lede.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(" ");
+  const words = $$(".w", lede); let lit = 0;
+  const lightWords = () => {
+    const b = lede.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (innerHeight * .85 - b.top) / (b.height + innerHeight * .35)));
+    const n = Math.round(p * words.length);
+    if (n !== lit) { if (n > lit) Audio.tick(); words.forEach((w, i) => w.classList.toggle("lit", i < n)); lit = n; }
+  };
+
+  // active nav link
+  const navLinks = $$("header nav a");
+  const spy = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+  }), { rootMargin: "-45% 0px -50% 0px" });
+  $$("section[id]").forEach(s => spy.observe(s));
+
+  /* ================= WORK PREVIEW ================= */
+  const pv = $(".preview"), pc = $("canvas", pv), px = pc.getContext("2d");
+  const pvPos = { x: 0, y: 0 }; let pvHue = 160, pvT = 0, pvOn = false;
+  $$(".row").forEach((row, i) => {
+    row.addEventListener("pointerenter", () => { pvHue = +row.dataset.hue; pvOn = fine && !reduced; pv.classList.toggle("on", pvOn); Audio.hover(i + 3); });
+    row.addEventListener("pointerleave", () => { pvOn = false; pv.classList.remove("on"); });
+  });
+  const drawPreview = () => {
+    pvT += .012; const w = pc.width, h = pc.height;
+    const g = px.createLinearGradient(0, 0, w, h);
+    g.addColorStop(0, `hsl(${pvHue},70%,${18}%)`); g.addColorStop(1, `hsl(${pvHue + 40},60%,8%)`);
+    px.fillStyle = g; px.fillRect(0, 0, w, h);
+    for (let k = 0; k < 3; k++) {
+      px.beginPath();
+      for (let x = 0; x <= w; x += 6) {
+        const y = h / 2 + Math.sin(x * .012 + pvT * (1 + k * .4) + k) * (40 + k * 20) * Math.sin(pvT * .6 + k);
+        x ? px.lineTo(x, y) : px.moveTo(x, y);
+      }
+      px.strokeStyle = `hsla(${pvHue + k * 25},90%,70%,${.55 - k * .14})`; px.lineWidth = 2; px.stroke();
+    }
+  };
+
+  /* ================= DOT FIELD (reacts to cursor) ================= */
+  const fc = $("#field"), fx = fc.getContext("2d"); let dots = [], dpr = 1;
+  const buildField = () => {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    fc.width = innerWidth * dpr; fc.height = innerHeight * dpr; fc.style.width = innerWidth + "px"; fc.style.height = innerHeight + "px";
+    const gap = innerWidth < 700 ? 34 : 42; dots = [];
+    for (let y = gap / 2; y < innerHeight; y += gap) for (let x = gap / 2; x < innerWidth; x += gap) dots.push({ ox: x, oy: y, x, y });
+  };
+  buildField(); addEventListener("resize", buildField);
+  const drawField = () => {
+    fx.setTransform(dpr, 0, 0, dpr, 0, 0); fx.clearRect(0, 0, innerWidth, innerHeight);
+    const R = 160;
+    for (const d of dots) {
+      const dx = d.ox - r.x, dy = d.oy - r.y, dist = Math.hypot(dx, dy);
+      let tx = d.ox, ty = d.oy, a = .13, s = 1;
+      if (fine && dist < R) { const f = (1 - dist / R) ** 2; tx += dx / (dist || 1) * f * 22; ty += dy / (dist || 1) * f * 22; a += f * .7; s += f * 1.4; }
+      d.x += (tx - d.x) * .12; d.y += (ty - d.y) * .12;
+      fx.fillStyle = a > .3 ? `rgba(95,227,176,${a})` : `rgba(237,237,234,${a})`;
+      fx.beginPath(); fx.arc(d.x, d.y, s, 0, 6.283); fx.fill();
+    }
+  };
+
+  /* ================= MAIN LOOP ================= */
+  const loop = () => {
+    const k = reduced ? 1 : .16;
+    r.x += (m.x - r.x) * k; r.y += (m.y - r.y) * k;
+    dot.style.transform = `translate3d(${m.x}px, ${m.y}px, 0)`;
+    ring.style.transform = `translate3d(${r.x}px, ${r.y}px, 0)`;
+    speed = speed * .9 + Math.hypot(m.x - prev.x, m.y - prev.y) * .1; prev.x = m.x; prev.y = m.y;
+    Audio.motion(speed, m.x / innerWidth);
+    if (pvOn) {
+      pvPos.x += (m.x - pvPos.x) * .1; pvPos.y += (m.y - pvPos.y) * .1;
+      const tilt = Math.max(-6, Math.min(6, (m.x - pvPos.x) * .08));
+      pv.style.transform = `translate3d(calc(${pvPos.x}px - 50% + 180px), calc(${pvPos.y}px - 50%), 0) rotate(${tilt}deg) scale(1)`;
+      drawPreview();
+    } else { pvPos.x = m.x; pvPos.y = m.y; }
+    if (!reduced) drawField();
+    requestAnimationFrame(loop);
+  };
+  if (reduced) drawField();
+  loop();
+  addEventListener("scroll", lightWords, { passive: true }); lightWords();
+
+  /* ================= SMALL THINGS ================= */
+  const toast = $(".toast"); let tt;
+  const say = msg => { toast.textContent = msg; toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove("on"), 2200); };
+  $("#email").addEventListener("click", async e => {
+    const addr = e.currentTarget.dataset.email;
+    try { await navigator.clipboard.writeText(addr); say("email copied ✓"); Audio.chord(); }
+    catch { location.href = "mailto:" + addr; }
+  });
+
+  const clock = $("#clock");
+  const fmt = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Toronto", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZoneName: "short" });
+  const tickClock = () => { clock.textContent = fmt.format(new Date()); };
+  tickClock(); setInterval(tickClock, 1000);
+  $("#yr").textContent = new Date().getFullYear();
+
+  // title nudges you back when you leave the tab
+  const t0 = document.title;
+  document.addEventListener("visibilitychange", () => { document.title = document.hidden ? "← come back" : t0; });
+})();
+</script>
+</body>
+</html>
