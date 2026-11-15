@@ -1,1 +1,148 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/dev-portfolio/favicon.ico"><link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap" rel="stylesheet"><title>Gideon Peters</title><link href="/dev-portfolio/css/about.367b162a.css" rel="prefetch"><link href="/dev-portfolio/js/about.0b642777.js" rel="prefetch"><link href="/dev-portfolio/css/app.447a3e82.css" rel="preload" as="style"><link href="/dev-portfolio/css/chunk-vendors.cb6671d7.css" rel="preload" as="style"><link href="/dev-portfolio/js/app.06ff59d7.js" rel="preload" as="script"><link href="/dev-portfolio/js/chunk-vendors.47c895ea.js" rel="preload" as="script"><link href="/dev-portfolio/css/chunk-vendors.cb6671d7.css" rel="stylesheet"><link href="/dev-portfolio/css/app.447a3e82.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but portfolio doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="/dev-portfolio/js/chunk-vendors.47c895ea.js"></script><script src="/dev-portfolio/js/app.06ff59d7.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gideon Peters</title>
+<meta name="description" content="Gideon Peters — Staff Software Engineer building fast, well-evaluated AI/ML systems. Montreal." />
+<link rel="icon" href="favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css?v=3" />
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
+<div class="preview" aria-hidden="true"><canvas width="600" height="400"></canvas></div>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<header>
+  <a href="#top" class="logo"><i></i>gideon peters</a>
+  <nav>
+    <a href="#about" class="hide-sm" data-scramble>about</a>
+    <a href="#work" class="hide-sm" data-scramble>work</a>
+    <a href="#contact" data-scramble>contact</a>
+    <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+      <span class="bars"><b></b><b></b><b></b><b></b></span><span class="lbl">sound off</span>
+    </button>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap" style="width:100%">
+      <div class="eyebrow">
+        <span><span class="dot">●</span> staff software engineer</span>
+        <span>montreal, qc</span>
+        <span>ai / ml systems</span>
+      </div>
+      <h1 aria-label="Building fast, careful AI systems.">
+        <span class="line" data-split>Building fast,</span>
+        <span class="line" data-split>careful <em>AI systems.</em></span>
+      </h1>
+      <div class="hero-foot">
+        <p class="rv">I'm <strong>Gideon</strong>. I build and evaluate AI/ML systems: LLM agents, the benchmarks that tell you whether to trust them, and the infrastructure that keeps them fast.</p>
+        <div class="scroll-hint"><i></i>scroll</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">01</span> / about</span><span>who</span></div>
+      <div class="about-grid">
+        <p class="lede" data-words>I started out shipping web and mobile products end to end. Today I work on the systems underneath AI, making them measurable, reproducible and fast enough for regulated domains where a wrong answer is a real risk. I publish research on LLMs for software engineering, I care about the details, and I sing like crazy.</p>
+        <div class="facts rv">
+          <div class="fact"><span>role</span><span>Staff Software Engineer</span></div>
+          <div class="fact"><span>based</span><span>Montreal, Canada</span></div>
+          <div class="fact"><span>local time</span><span class="clock" id="clock">--:--:--</span></div>
+          <div class="fact"><span>focus</span><span>LLM agents, evals, performance</span></div>
+          <div class="fact"><span>languages</span><span>English, Français</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="work">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">02</span> / case studies</span><span>selected</span></div>
+      <ul class="work">
+        <li><a class="row rv" href="case/benchmarking.html" data-label="read" data-hue="158">
+          <span class="idx">01</span><h3>Benchmarking AI agents you can trust</h3><p>A reproducible harness that compares 24 models behind one agent on accuracy, groundedness, safety, cost and latency.</p><span class="tag">evals <span class="arrow">→</span></span></a></li>
+        <li><a class="row rv" href="case/dom-performance.html" data-label="read" data-hue="265">
+          <span class="idx">02</span><h3>Can LLMs fix slow web pages?</h3><p>An empirical study of nine LLMs fixing Lighthouse performance issues at the DOM level. MSR '26.</p><span class="tag">research <span class="arrow">→</span></span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="stack">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">03</span> / toolbox</span><span>hover me</span></div>
+      <div class="stack rv">
+        <span class="chip magnetic">Python</span><span class="chip magnetic">Go</span><span class="chip magnetic">TypeScript</span>
+        <span class="chip magnetic">LLM agents</span><span class="chip magnetic">Evals &amp; benchmarking</span><span class="chip magnetic">Web performance</span>
+        <span class="chip magnetic">System design</span><span class="chip magnetic">React</span><span class="chip magnetic">Vue / Nuxt</span>
+        <span class="chip magnetic">Laravel</span><span class="chip magnetic">Flutter</span><span class="chip magnetic">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="notes">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">04</span> / along the way</span><span>highlights</span></div>
+      <div class="notes">
+        <div class="note rv"><span class="yr">2026</span><div><h4>MSR '26 publication</h4><p>Evaluating LLMs for automated DOM-level resolution of web performance issues.</p></div></div>
+        <div class="note rv"><span class="yr">2021</span><div><h4>Wings Technology Award</h4><p>For contributions to tech among my graduating class.</p></div></div>
+        <div class="note rv"><span class="yr">2020</span><div><h4>HNGi7 finalist</h4><p>One of 200 finalists from 10,000+ interns worldwide.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec contact" id="contact">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">05</span> / contact</span><span>say hi</span></div>
+      <div class="contact-grid">
+        <div>
+          <h2 class="big">Let's talk.<span class="u"></span></h2>
+          <p class="contact-sub">Hiring, collaborating, or just curious? Leave a note and I'll get back to you.</p>
+        </div>
+        <form class="cform rv" id="cform" action="https://formspree.io/f/xoqeeavj" method="POST" novalidate>
+          <div class="sent" aria-hidden="true">
+            <b>Message sent ✓</b>
+            <p>Thanks, <span class="sent-name">friend</span>. I'll reply to you soon.</p>
+            <button type="button" class="again">send another →</button>
+          </div>
+          <label class="field">
+            <input name="name" type="text" autocomplete="name" placeholder=" " required maxlength="100" />
+            <span>Your name</span><em class="err">Tell me who you are</em>
+          </label>
+          <label class="field">
+            <input name="email" type="email" autocomplete="email" placeholder=" " required maxlength="200" />
+            <span>Email</span><em class="err">I'll need a valid email to reply</em>
+          </label>
+          <label class="field">
+            <textarea name="message" rows="4" placeholder=" " required maxlength="2000"></textarea>
+            <span>Message</span><em class="err">Say a little something</em><i class="count">0 / 2000</i>
+          </label>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+          <input type="hidden" name="_subject" value="New message from your portfolio" />
+          <button type="submit" class="send magnetic" data-label="send"><span class="send-lbl">Send message</span><span class="arrow">→</span></button>
+        </form>
+      </div>
+      <div class="links">
+        <span>© <span class="yr-now"></span> Gideon Peters</span>
+        <nav>
+          <a href="https://www.linkedin.com/in/gideonpeters/" target="_blank" rel="noopener" data-scramble>linkedin</a>
+          <a href="https://github.com/gideonpeters" target="_blank" rel="noopener" data-scramble>github</a>
+          <a href="https://arxiv.org/abs/2601.05502" target="_blank" rel="noopener" data-scramble>arxiv</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="assets/site.js?v=3"></script>
+</body>
+</html>

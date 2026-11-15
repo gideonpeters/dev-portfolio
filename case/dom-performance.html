@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LLMs and Web Performance · Gideon Peters</title>
+<meta name="description" content="Case study: an MSR '26 study of nine LLMs fixing Lighthouse performance issues at the DOM level across 15 popular web pages." />
+<link rel="icon" href="../favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css?v=3" />
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<header>
+  <a href="../index.html" class="logo"><i></i>gideon peters</a>
+  <nav>
+    <a href="../index.html#work" class="hide-sm" data-scramble>work</a>
+    <a href="../index.html#contact" data-scramble>contact</a>
+    <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+      <span class="bars"><b></b><b></b><b></b><b></b></span><span class="lbl">sound off</span>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap" style="width:100%">
+      <a class="back" href="../index.html#work"><span class="arrow">←</span> all work</a>
+      <div class="eyebrow"><span><span class="dot">●</span> case study 02</span><span>research</span><span>msr '26</span></div>
+      <h1 aria-label="Can LLMs fix slow web pages?">
+        <span class="line" data-split>Can LLMs fix</span>
+        <span class="line" data-split>slow <em>web pages?</em></span>
+      </h1>
+      <div class="meta rv">
+        <div><span>venue</span>MSR 2026, Technical Papers</div>
+        <div><span>authors</span>Gideon Peters (first author), SayedHassan Khatoonabadi, Emad Shihab · Concordia University</div>
+        <div><span>stack</span>Python, Lighthouse, Docker, 9 LLMs</div>
+        <div><span>read more</span><a href="https://arxiv.org/abs/2601.05502" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/gideonpeters/dom-llm" target="_blank" rel="noopener">Code ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">01</span> / the question</span><span>why</span></div>
+      <div class="split">
+        <h2 class="rv">Performance work is slow, manual, and lives in the DOM.</h2>
+        <div class="prose rv">
+          <p>Users expect pages to be fast, but fixing performance is time-consuming, and changing the Document Object Model is among the hardest parts of the job. LLMs are increasingly pitched as the tool for this kind of change.</p>
+          <p>So we asked a concrete question: <strong>given a real page's DOM and its Lighthouse audit, can an LLM actually make the issues go away, and what does it break along the way?</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">02</span> / setup</span><span>scale</span></div>
+      <div class="stats rv">
+        <div class="stat"><b data-count="15">0</b><span>popular web pages, including major social, shopping and streaming sites</span></div>
+        <div class="stat"><b data-count="9">0</b><span>state-of-the-art LLMs compared</span></div>
+        <div class="stat"><b data-count="7">0</b><span>Lighthouse audit categories</span></div>
+        <div class="stat"><b data-count="48.7" data-dec="1" data-suffix="%">0</b><span>best audit reduction on performance categories</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">03</span> / pipeline</span><span>how</span></div>
+      <div class="pipeline rv">
+        <div><b>Extract</b><p>Capture each page's full DOM and run a baseline Lighthouse audit.</p></div>
+        <div><b>Chunk</b><p>Split large DOMs into token-aware chunks that fit each model's context.</p></div>
+        <div><b>Repair</b><p>Give every model the chunk and its audits, and ask it to resolve the issues.</p></div>
+        <div><b>Reassemble</b><p>Stitch the modified chunks back into a working page.</p></div>
+        <div><b>Re-audit</b><p>Re-run Lighthouse, measure the change in audit incidence, and diff the DOM.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">04</span> / findings</span><span>what happened</span></div>
+      <div class="split">
+        <h2 class="rv">Excellent at the easy fixes, mixed where performance really lives.</h2>
+        <div class="prose rv">
+          <p>Every model cleared <strong>all SEO and accessibility issues</strong>. On the categories that matter most for speed (initial load, interactivity and network), results varied widely. The strongest model, GPT-4.1, cut audit incidence by <strong>roughly 47–49%</strong>, while others, such as GPT-4o-mini, consistently fell short.</p>
+        </div>
+      </div>
+      <div style="height:clamp(40px,7vh,72px)"></div>
+      <div class="chart rv">
+        <div class="chart-title"><span>reduction in audit incidence</span><i><span class="a">best result</span></i></div>
+        <div class="hrow"><span>SEO</span><div class="track"><div class="fill" style="--v:100"></div></div><span>100%</span></div>
+        <div class="hrow"><span>Accessibility</span><div class="track"><div class="fill" style="--v:100"></div></div><span>100%</span></div>
+        <div class="hrow"><span>Load, interactivity, network</span><div class="track"><div class="fill" style="--v:48.68"></div></div><span>46.5–48.7%</span></div>
+        <p class="note-sm" style="margin-top:12px">SEO and accessibility: every model. Performance categories: the strongest model (GPT-4.1), with reductions between 46.52% and 48.68%. See the paper for the per-category, per-model breakdown.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><span><span class="n">05</span> / what it means</span><span>takeaways</span></div>
+      <div class="prose rv" style="max-width:820px">
+        <p class="callout">LLMs mostly add things and move things around, and sometimes the page gets less stable.</p>
+        <ul>
+          <li><strong>Additive by default.</strong> Diffing the DOMs showed models mostly add elements and attributes and often reposition nodes, rather than simplifying the page.</li>
+          <li><strong>Regressions are real.</strong> Some fixes made visual stability worse: the page passed one audit and failed another.</li>
+          <li><strong>There's a safe zone.</strong> SEO and accessibility fixes are good candidates for automation today.</li>
+          <li><strong>Everything else needs a check.</strong> For performance-critical changes, the answer is hybrid workflows where every LLM edit is re-measured before it ships.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <a class="next" href="benchmarking.html" data-label="next">
+        <span>next case study →</span>
+        <h3>Benchmarking AI agents you can trust</h3>
+      </a>
+      <div class="links" style="margin-top:0">
+        <span>© <span class="yr-now"></span> Gideon Peters</span>
+        <nav>
+          <a href="https://www.linkedin.com/in/gideonpeters/" target="_blank" rel="noopener" data-scramble>linkedin</a>
+          <a href="https://github.com/gideonpeters" target="_blank" rel="noopener" data-scramble>github</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="../assets/site.js?v=3"></script>
+</body>
+</html>
