@@ -104,8 +104,34 @@
   <section class="sec contact" id="contact">
     <div class="wrap">
       <div class="sec-head"><span><span class="n">05</span> / contact</span><span>say hi</span></div>
-      <button class="big magnetic" id="email" data-label="copy" data-email="gideonpeters85@gmail.com">Let's talk.<span class="u"></span></button>
-      <div class="contact-sub">click to copy · gideonpeters85@gmail.com</div>
+      <div class="contact-grid">
+        <div>
+          <h2 class="big">Let's talk.<span class="u"></span></h2>
+          <p class="contact-sub">Hiring, collaborating, or just curious? Leave a note and I'll get back to you.</p>
+        </div>
+        <form class="cform rv" id="cform" action="https://formspree.io/f/xoqeeavj" method="POST" novalidate>
+          <div class="sent" aria-hidden="true">
+            <b>Message sent ✓</b>
+            <p>Thanks, <span class="sent-name">friend</span>. I'll reply to you soon.</p>
+            <button type="button" class="again">send another →</button>
+          </div>
+          <label class="field">
+            <input name="name" type="text" autocomplete="name" placeholder=" " required maxlength="100" />
+            <span>Your name</span><em class="err">Tell me who you are</em>
+          </label>
+          <label class="field">
+            <input name="email" type="email" autocomplete="email" placeholder=" " required maxlength="200" />
+            <span>Email</span><em class="err">I'll need a valid email to reply</em>
+          </label>
+          <label class="field">
+            <textarea name="message" rows="4" placeholder=" " required maxlength="2000"></textarea>
+            <span>Message</span><em class="err">Say a little something</em><i class="count">0 / 2000</i>
+          </label>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+          <input type="hidden" name="_subject" value="New message from your portfolio" />
+          <button type="submit" class="send magnetic" data-label="send"><span class="send-lbl">Send message</span><span class="arrow">→</span></button>
+        </form>
+      </div>
       <div class="links">
         <span>© <span class="yr-now"></span> Gideon Peters</span>
         <nav>

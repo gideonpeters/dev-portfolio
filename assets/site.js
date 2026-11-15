@@ -90,12 +90,12 @@
   }
   const hoverables = "a, button, .chip";
   document.addEventListener("pointerover", e => {
-    const el = e.target.closest(hoverables + ", [data-label], p, h3, .lede");
+    const el = e.target.closest(hoverables + ", [data-label], p, h3, .lede, .field");
     ring.classList.remove("is-link", "is-label", "is-text");
     if (!el) return;
     if (el.dataset.label) { ring.classList.add("is-label"); label.textContent = el.dataset.label; }
     else if (el.matches(hoverables)) ring.classList.add("is-link");
-    else if (el.matches("p, .lede")) ring.classList.add("is-text");
+    else if (el.matches("p, .lede, .field")) ring.classList.add("is-text");
   });
 
   // sounds on hover — each interactive element gets its own note
@@ -265,11 +265,58 @@
   /* ================= SMALL THINGS ================= */
   const toast = $(".toast"); let tt;
   const say = msg => { toast.textContent = msg; toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove("on"), 2200); };
-  $("#email")?.addEventListener("click", async e => {
-    const addr = e.currentTarget.dataset.email;
-    try { await navigator.clipboard.writeText(addr); say("email copied ✓"); Audio.chord(); }
-    catch { location.href = "mailto:" + addr; }
-  });
+  /* ================= CONTACT FORM ================= */
+  // Posts to Formspree, which forwards each submission to Gideon's inbox.
+  const form = $("#cform");
+  if (form) {
+    const btn = $(".send", form), btnLbl = $(".send-lbl", form);
+    const fields = $$(".field", form);
+    const msg = form.elements.message, count = $(".count", form);
+    const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+    const check = (f, shake) => {
+      const input = $("input, textarea", f), v = input.value.trim();
+      const ok = input.type === "email" ? isEmail(v) : v.length > 0;
+      if (shake && !ok) { f.classList.remove("shake"); void f.offsetWidth; f.classList.add("shake"); }
+      f.classList.toggle("bad", !ok);
+      return ok;
+    };
+    let typed = 0;
+    fields.forEach((f, i) => {
+      const input = $("input, textarea", f);
+      input.addEventListener("focus", () => Audio.hover(i + 2));
+      input.addEventListener("input", () => {
+        if (f.classList.contains("bad")) check(f);
+        if (++typed % 2 === 0) Audio.tick(); // soft typewriter ticks
+      });
+      input.addEventListener("blur", () => { if (input.value) check(f); });
+      f.addEventListener("animationend", () => f.classList.remove("shake"));
+    });
+    msg.addEventListener("input", () => { count.textContent = `${msg.value.length} / ${msg.maxLength}`; });
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      const bad = fields.filter(f => !check(f, true));
+      if (bad.length) { $("input, textarea", bad[0]).focus(); Audio.blip({ f: 180, dur: .2, vol: .14, type: "triangle", glide: .7 }); return; }
+      btn.classList.add("busy"); btnLbl.textContent = "Sending…";
+      try {
+        const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error(res.status);
+        $(".sent-name", form).textContent = form.elements.name.value.trim().split(/\s+/)[0] || "friend";
+        form.classList.add("done"); $(".sent", form).setAttribute("aria-hidden", "false");
+        say("message sent ✓"); Audio.chord();
+        form.reset(); count.textContent = `0 / ${msg.maxLength}`;
+      } catch {
+        say("couldn't send. please try again");
+        Audio.blip({ f: 180, dur: .25, vol: .14, type: "triangle", glide: .6 });
+      } finally {
+        btn.classList.remove("busy"); btnLbl.textContent = "Send message";
+      }
+    });
+    $(".again", form).addEventListener("click", () => {
+      form.classList.remove("done"); $(".sent", form).setAttribute("aria-hidden", "true");
+      fields.forEach(f => f.classList.remove("bad")); form.elements.name.focus();
+    });
+  }
 
   const clock = $("#clock");
   const fmt = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Toronto", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZoneName: "short" });
