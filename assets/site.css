@@ -270,6 +270,6 @@
   .sent p { color: var(--muted); font-size: 18px; }
   .sent .again { justify-self: start; font: 400 12px/1 var(--mono); color: var(--muted); padding: 8px 0; transition: color .25s; }
   .sent .again:hover { color: var(--fg); }
-  .cform.done .sent { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
-  .cform.done .field, .cform.done .send { opacity: 0; transition: opacity .3s; }
+  .cform.done .sent { position: static; opacity: 1; visibility: visible; transform: none; transition-delay: 0s; padding: 18px 0 8px; }
+  .cform.done .field, .cform.done .send { display: none; }
   @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
